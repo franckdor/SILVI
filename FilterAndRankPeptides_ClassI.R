@@ -1,7 +1,6 @@
 require(tidyverse)
 require(stringr)
 
-
 # load class I results
 
 setapred = read.csv("3_blast_mismatches_I.csv")
@@ -20,7 +19,6 @@ setapred = cbind(setapred,propasdata)
 mismatch = setapred %>% select(c(1,seq(5,13))) %>% gather(pos,val,2:10) %>% group_by(peptide) %>% summarize(mismatch = length(grep("FALSE",val)))
 
 
-
 # Add matches number to data
 setapred = setapred %>% left_join(mismatch,by="peptide")
 
@@ -33,17 +31,8 @@ get_duplicated_supertype = function(st){
 	res = supertypes[duplicated(supertypes)]
 	return(res) }
 
-setapred2 %>% select(supertype,promiscuity)
-setapred2 %>% select(supertype,promiscuity) %>% filter(promiscuity >1)
 						       
-
 setapred = setapred %>% rowwise %>% mutate(promiscuity = length(get_duplicated_supertype(as.character(supertype))))
-setapred$promiscuity
-
-
-#Now we join the position specific to supertypes table
-
-
 
 
 # how many of predictor for the peptides  ? 
@@ -71,7 +60,6 @@ get_pred_scores = function(st,pred){
 setapred = setapred %>% rowwise %>% mutate(scoreN = max(get_pred_scores(as.character(score),"N")))
 setapred$scoreN = ifelse(setapred$scoreN == -Inf,NA,setapred$scoreN)
 
-setapred %>% glimpse
 
 # Now for the filtering step:
 #setapred %>% arrange(desc(Num_predictor),desc(mismatch),desc(scoreN)) %>% glimpse
@@ -96,11 +84,14 @@ for(row in 1:nrow(setapred))
     }
 
 
-
-
 setapred2$HLA_restriction = HLA_restriction 
-allele2supertype = read.table("table/map_supertypes_alleles.csv",sep=';')
+allele2supertype = read.table("table/map_supertypes_alleles.csv",header =T,sep=';')
+
+str(allele2supertype)
+allele2supertype %>% select(allele)
+
 allele2supertype = allele2supertype %>% rowwise %>% mutate(allele_simple =  gsub('\\*', '', allele))
+
 
 # Score of N predictor (if any)
 # home made function to extract scores from strings
@@ -128,11 +119,6 @@ for(row in 1:nrow(setapred2)){
 	   	allele = as.character(res[1,i])
 		scoreN = as.numeric(res[2,i])
 		super = as.character(allele2supertype[allele2supertype$allele_simple==allele,"supertype"])
-	  	print(row)
-		print(allele)
-		print(scoreN)
-		print(super)
-		print(setapred2[row,"HLA_restriction"])
 		if(setapred2[row,"HLA_restriction"]==super){scorevals=append(scorevals,scoreN)}
 	   }
 	}else{scorevals=append(scorevals,NA)}
@@ -156,7 +142,7 @@ for(i in 1:nrow(setapred2)){
 setapred2$anchormm = anchormm
 
 
-write.table(file="test.csv",setapred2,sep=";",row.names=F)
+write.table(file="res_classI.csv",setapred2,sep=";",row.names=F)
 
 
 
