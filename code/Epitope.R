@@ -105,7 +105,7 @@ import_1_protein_predictor_class1 <- function(path){
   # df <- readLines(path) %>% gsub(";", ",", .) %>% textConnection()  %>% read.table(sep=",", header=T)
   # now with homogeneous files
   # add a specific field separator (comma) 	
-      	df <- read.csv2(path,sep=";")
+      	df <- read.csv2(path,sep=",")
 # retrieve and add protein name from path (precarious)
   protein <- strsplit(path, "/|\\.|_")  %>% sapply(function(.) .[length(.)-2])
   predictor <- strsplit(path, "/|\\.|_")  %>% sapply(function(.) .[length(.)-1])
@@ -156,7 +156,7 @@ import_all_protein_predictor_class1 <- function(dir.path){
 import_1_protein_predictor_class2 <- function(path){
   # df <- readLines(path)  %>%  gsub(";", ",", .) %>% textConnection()  %>% read.table(sep=",", header=T)
   # now with homogeneous files
-  df <- read.csv2(path,sep=",")
+  df <- read.csv2(path,sep=";")
   # rename some columns, and create empty others to allow further do.call(rbind)
   netmhc_id <- df  %>% colnames  %>% grep("^C|core$", .)
   netmhc_flag <- netmhc_id %>% any()
@@ -297,8 +297,10 @@ common_among_predictors_I <- function(df){
   # yet we need this additional information)
   df$supertype <- paste0(df$predictor, "_", df$supertype)
   df[df$predictor=="S", "supertype"] <- NA
-
-  df$score <- paste0(df$predictor, "_", df$score)
+  # Trying to add allele specific ic50..
+  # stop trying
+  df$score <- paste0(df$predictor, "_", df$allele,"_",df$score)
+  #df$score <- paste0(df$predictor, "_", df$score)
   df[df$predictor=="S", "score"] <- NA
   # just turn commas into points
   df$score %<>% gsub(",", ".", .)
@@ -339,7 +341,7 @@ common_among_predictors_II <- function(df){
   # df$supertype <- paste0(df$predictor, "_", df$supertype)
   # df[df$predictor=="S", "supertype"] <- NA
 
-  df$score <- paste0(df$predictor, "_", df$score)
+  df$score <- paste0(df$predictor, "_",df$allele,"_", df$score)
   df[df$predictor=="S", "score"] <- NA
   # df[df$predictor=="N", "score"] <- NA
   # just turn commas into points
@@ -583,7 +585,7 @@ final_polish <- function(df){
       as_data_frame() %>% return()
   } else {
     df %>%
-      select(peptide, middle, middle2, subject=blast, starts_with("m_"), protein, predictor, seq_num, score, blast_info, file) %>%
+      select(allele,full_peptide, middle, middle2, subject=blast, starts_with("m_"), protein, predictor, seq_num, score, blast_info, file) %>%
       as_data_frame() %>% return()
   }
 }

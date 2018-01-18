@@ -27,10 +27,11 @@ stringr
 
 ### General execution process
 
+The scripts Fire_classI.R and Fire_classII.R contain the commands to apply analysis steps to class I or class II epitope binding prediction data, respectively. Path to input files should be edited by the user in Fire_classI.R or Fire_classII.R. We recommend loading the script files in Rstudio (link to rstudio) and execute each step sequentially.
+
 The script Fire.R contains the commands to integrate initial data and apply analysis steps. 
 Path to input files should be edited by the user in Fire.R 
 We recommand loading the script Fire.R in Rstudio (link to rstudio) and execute each step sequentially. 
-
 ## Step1
 
 ### Input
