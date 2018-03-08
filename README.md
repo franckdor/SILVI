@@ -1,6 +1,3 @@
-
-"coucou"
-
 # SILVI
 A  pipeline to facilitate in T-cell epitope selection 
 
@@ -34,7 +31,8 @@ The scripts Fire_classI.R and Fire_classII.R contain the commands to apply analy
 The script Fire.R contains the commands to integrate initial data and apply analysis steps. 
 Path to input files should be edited by the user in Fire.R 
 We recommand loading the script Fire.R in Rstudio (link to rstudio) and execute each step sequentially. 
-## Step1
+
+The directory example contains a set of input files for both classes and the resulting output. 
 
 ### Input
 
@@ -85,6 +83,12 @@ For  class II, the first step of the script output the following files:
 	Formated prediction for class II supertype in a csv file.
 * 1_blast_me.fasta
 	Fasta file of peptides sequence to blast again host proteome.
+
+### Final output
+
+for class I 
+
+
 
 
 
