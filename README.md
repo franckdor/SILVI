@@ -44,8 +44,12 @@ Currently, the script only accept results from 9-mer epitopes for class I allele
 
 links to online predictor:
 [For each allele-length combination, consensus method is used, which includes ANN, SMM, and CombLib. Moutaftsi, M et al. 2006. A consensus epitope prediction approach identifies the breadth of murine T(CD8+) -cell responses to vaccinia virus. Nat Biotechnol 24:817-819.](http://tools.iedb.org/mhci/)
+
 [Jurtz, V et al. 2017. NetMHCpan-4.0: Improved Peptide–MHC Class I Interaction Predictions Integrating Eluted Ligand and Peptide Binding Affinity Data. J. Immunol. 199, 3360–3368](http://www.cbs.dtu.dk/services/NetMHCpan/)
+
 [Rammensee, HG et al. 1999.SYFPEITHI: database for MHC ligands and peptide motifs. Immunogenetics 50: 213-219](http://www.syfpeithi.de)
+
+
 Format your results files as csv 
 * 4 columns: allele,peptides,seq_num,score
 * comma separated
@@ -58,8 +62,10 @@ Similarly, user should obtained results from the online predictors.
 Currently, the script only accept results from 15-mer  epitopes for Class II alleles.
 
 links to online predictor:
-[http://tools.iedb.org/mhcii/](For each allele-length combination, consensus method is used, which includes NN, SMM, and CombLib: Wang, P et al. 2008. A systematic assessment of MHC class II peptide binding predictions and evaluation of a consensus approach. PLoS Comput Biol. 2008 Apr 4;4(4):e1000048. | NN-align core and IC50 predictions: Wang, P et al. 2010. Peptide binding predictions for HLA DR, DP and DQ molecules. BMC Bioinformatics 11, 568)
-[http://www.cbs.dtu.dk/services/NetMHCIIpan/](Andreatta, M et al. 2015. Accurate pan-specific prediction of peptide-MHC class II binding affinity with improved binding core identification. Immunogenetics.67(11-12):641-50.)
+
+[For each allele-length combination, consensus method is used, which includes NN, SMM, and CombLib: Wang, P et al. 2008. A systematic assessment of MHC class II peptide binding predictions and evaluation of a consensus approach. PLoS Comput Biol. 2008 Apr 4;4(4):e1000048. | NN-align core and IC50 predictions: Wang, P et al. 2010. Peptide binding predictions for HLA DR, DP and DQ molecules. BMC Bioinformatics 11, 568](http://tools.iedb.org/mhcii/)
+
+[Andreatta, M et al. 2015. Accurate pan-specific prediction of peptide-MHC class II binding affinity with improved binding core identification. Immunogenetics.67(11-12):641-50.](http://www.cbs.dtu.dk/services/NetMHCIIpan/)
 
 Format your results files as csv 
 * 4 columns: allele,seq_num,full_peptide,rank,core,ic50
