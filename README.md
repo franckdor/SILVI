@@ -43,9 +43,9 @@ Submit fasta sequences of proteins to the following online predictors
 Currently, the script only accept results from 9-mer epitopes for class I alleles.
 
 links to online predictor:
-[http://tools.iedb.org/mhci/](For each allele-length combination, consensus method is used, which includes ANN, SMM, and CombLib. Moutaftsi, M et al. 2006. A consensus epitope prediction approach identifies the breadth of murine T(CD8+)-cell responses to vaccinia virus. Nat Biotechnol 24:817-819.)
-[http://www.cbs.dtu.dk/services/NetMHCpan/](Jurtz, V et al. 2017. NetMHCpan-4.0: Improved Peptide–MHC Class I Interaction Predictions Integrating Eluted Ligand and Peptide Binding Affinity Data. J. Immunol. 199, 3360–3368)
-[http://www.syfpeithi.de](Rammensee, HG et al. 1999.SYFPEITHI: database for MHC ligands and peptide motifs. Immunogenetics 50: 213-219)
+[For each allele-length combination, consensus method is used, which includes ANN, SMM, and CombLib. Moutaftsi, M et al. 2006. A consensus epitope prediction approach identifies the breadth of murine T(CD8+) -cell responses to vaccinia virus. Nat Biotechnol 24:817-819.](http://tools.iedb.org/mhci/)
+[Jurtz, V et al. 2017. NetMHCpan-4.0: Improved Peptide–MHC Class I Interaction Predictions Integrating Eluted Ligand and Peptide Binding Affinity Data. J. Immunol. 199, 3360–3368](http://www.cbs.dtu.dk/services/NetMHCpan/)
+[Rammensee, HG et al. 1999.SYFPEITHI: database for MHC ligands and peptide motifs. Immunogenetics 50: 213-219](http://www.syfpeithi.de)
 Format your results files as csv 
 * 4 columns: allele,peptides,seq_num,score
 * comma separated
