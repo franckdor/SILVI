@@ -1,4 +1,4 @@
-source("code/Epitope.R")
+source("code/SILVI.R")
 check_csvs <- function(PATH_TO_CHECK, classIorII){
   # domestic functions that prints summaries
   spit_diag <- function(tf){
