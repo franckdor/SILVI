@@ -1,0 +1,5 @@
+classI;iedb;allele;seq_num;peptide;ann_ic50
+classI;netmhcpan;allele;seq_num;peptide;nm
+classI;syfpeithi;allele;seq_num;peptide;score
+classII;iedbii;allele;seq_num;full_peptide;rank;core;ic50;pos
+classII;netmhciipan;allele;full_peptide;seq_num;core;ic50;rank;pos
