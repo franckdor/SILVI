@@ -216,4 +216,4 @@ As general guidelines:
 
 * sensitivity and specificity of different SILVI filters for example protein P26664:
 
-![sensitivity_specificity](images/sensitivity_specificity_SILVI_filters_P26664.tiff)
+![sensitivity_specificity](images/sensitivity_specificity_SILVI_filters_P26664.png)
