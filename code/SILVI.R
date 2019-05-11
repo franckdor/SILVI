@@ -605,15 +605,18 @@ merge_result_classI <-function()
   # load class I results
   
   setapred = read.csv("3_blast_mismatches_I.csv")
-  
   # Add physico-chemical properties of peptides
   
   setapred$Hydrophobicity = hydrophobicity(setapred$peptide)
   setapred$pI = pI(setapred$peptide, pKscale= "Bjellqvist")
   setapred$MW = mw(setapred$peptide)
-  # How many blast matches ?
-  mismatch = setapred %>% select(c(1,seq(5,13))) %>% gather(pos,val,2:10) %>% group_by(peptide) %>% summarize(mismatch = length(grep("FALSE",val)))
+  # How many blast matches 
+  mismatch = setapred %>% select(c(1,seq(5,13))) %>% gather(pos,val,2:10) 
+  mismatch$nn =  as.integer(mismatch$val)
+  mismatch = mismatch %>% group_by(peptide) %>% summarize_at("nn",sum)
+  mismatch$mismatch = 9 - mismatch$nn
   # Add matches number to data
+  
   setapred = setapred %>% left_join(mismatch,by="peptide")
   
   # Define function to get number of duplicated supertype:
