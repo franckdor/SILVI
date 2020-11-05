@@ -561,6 +561,22 @@ count_mismatches <- function(df){
   return(cbind(df, m_df))
 }
 
+# -------------------------------------------------------------------------
+# use fd_middle to score alignment and create output new columns (m_1:m_9) with FALSE/TRUE values.
+# in  : df a tibble
+# out : copie of input tibble with new columns added
+
+count_mismatches_fd <- function(df){  # <------- fonction de calcul des scores
+
+  l1 <- df$peptide %>% strsplit("")
+  l2 <- df$fd_middle %>% strsplit("") %>% lapply("[", 1:9)
+
+  # as.data.frame() called to use calnames() function on the create frame (comment fd)
+  m_df <- mapply(function(x, y) (x == y) | (y=="+"), l1, l2)  %>% t() %>% as.data.frame()
+  colnames(m_df) <- paste0("m_", 1:9)
+  return(cbind(df, m_df))
+}
+
 after_two_spaces_all_mismatches <- function(df){
   # domestic function for 1 line
   after_two_spaces_all_mismatches_1 <- function(x){
