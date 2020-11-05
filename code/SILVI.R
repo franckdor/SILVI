@@ -20,10 +20,15 @@
 # rinse environmment
 rm(list=ls())
 
-# dependencies
-library(plyr)
+### # dependencies
+### library(plyr)
+### library(dplyr)
+### library(magrittr)
+
+### # dependencies
 library(dplyr)
 library(magrittr)
+source("code/process_blast.R")
 
 # https://gist.github.com/hadley/6353939#file-read-file-cpp
 # library(Rcpp)
@@ -104,7 +109,7 @@ import_1_protein_predictor_class1 <- function(path){
   # noRcpp solution
   # df <- readLines(path) %>% gsub(";", ",", .) %>% textConnection()  %>% read.table(sep=",", header=T)
   # now with homogeneous files
-  # add a specific field separator (comma) 	
+  # add a specific field separator (comma)
       	df <- read.csv2(path,sep=";")
 # retrieve and add protein name from path (precarious)
   protein <- strsplit(path, "/|\\.|_")  %>% sapply(function(.) .[length(.)-2])
@@ -601,24 +606,24 @@ final_polish <- function(df){
 merge_result_classI <-function()
   {
 
-  
+
   # load class I results
-  
+
   setapred = read.csv("3_blast_mismatches_I.csv")
   # Add physico-chemical properties of peptides
-  
+
   setapred$Hydrophobicity = hydrophobicity(setapred$peptide)
   setapred$pI = pI(setapred$peptide, pKscale= "Bjellqvist")
   setapred$MW = mw(setapred$peptide)
-  # How many blast matches 
-  mismatch = setapred %>% select(c(1,seq(5,13))) %>% gather(pos,val,2:10) 
+  # How many blast matches
+  mismatch = setapred %>% select(c(1,seq(5,13))) %>% gather(pos,val,2:10)
   mismatch$nn =  as.integer(mismatch$val)
   mismatch = mismatch %>% group_by(peptide) %>% summarize_at("nn",sum)
   mismatch$mismatch = 9 - mismatch$nn
   # Add matches number to data
-  
+
   setapred = setapred %>% left_join(mismatch,by="peptide")
-  
+
   # Define function to get number of duplicated supertype:
   get_duplicated_supertype = function(st){
     sst = strsplit(st,"\\+")[[1]]
@@ -632,34 +637,34 @@ merge_result_classI <-function()
   setapred = setapred %>% rowwise %>% mutate(hasI = grepl("I",predictor))
   setapred = setapred %>% rowwise %>% mutate(hasN = grepl("N",predictor))
   setapred = setapred %>% rowwise %>% mutate(hasS = grepl("S",predictor))
-  
-  # 
+
+  #
   # # Score of N predictor (if any)
   # # home made function to extract scores from strings
   # get_scores = function(st){
   #   sst = strsplit(st,"\\_")[[1]]
   #   return(sst[2]) }
-  # 
+  #
   # get_pred_scores = function(st,pred){
   #   sst = strsplit(st,"\\+")[[1]]
   #   test = sst[grep(pred,sst)]
   #   test2 = sapply(test,get_scores)
   #   return(as.numeric(as.vector(test2))) }
-  # 
-  # 
+  #
+  #
   # setapred = setapred %>% rowwise %>% mutate(scoreN = min(get_pred_scores(as.character(score),"N")))
-  # 
-  # 
-  # 
+  #
+  #
+  #
   # setapred$scoreN = ifelse(setapred$scoreN == -Inf,NA,setapred$scoreN)
-  # 
-  
+  #
+
   # Now for the filtering step:
   #setapred %>% arrange(desc(Num_predictor),desc(mismatch),desc(scoreN)) %>% glimpse
-  
+
   # convert supertype to vector of characters
   setapred$supertype = as.vector(setapred$supertype)
-  
+
   # create new dataframe to duplicate results by supertypes
   setapred2 = data.frame()
   HLA_restriction = c()
@@ -675,33 +680,33 @@ merge_result_classI <-function()
       HLA_restriction = append(HLA_restriction,s)
     }
   }
-  
+
   setapred2$HLA_restriction = HLA_restriction
-  
+
   allele2supertype = read.table("code/map_supertypes_alleles.csv",header =T,sep=';')
-  
+
   # Reformat allele2supertype data
   allele2supertype = allele2supertype %>% rowwise %>% mutate(allele_simple =  gsub('\\*', '', allele))
-  
-  
+
+
   # Score of N predictor (if any)
   # home made function to extract scores from strings
   get_allele_scores = function(st){
     sst = strsplit(st,"\\_")[[1]]
     return(sst[2:3]) }
-  
+
   get_pred_allele_scores = function(st,pred){
     sst = strsplit(st,"\\+")[[1]]
     test = sst[grep(pred,sst)]
     test2 = sapply(test,get_allele_scores)
     return(test2) }
-  
+
   setapred2$score = as.vector(setapred2$score)
-  
+
   allele2supertype$allele_simple = as.vector(allele2supertype$allele_simple)
   allele2supertype$supertype = as.vector(allele2supertype$supertype)
-  
-  
+
+
 
   scorevals = c()
   for(row in 1:nrow(setapred2)){
@@ -716,13 +721,13 @@ merge_result_classI <-function()
       }
     }else{scorevals=append(scorevals,NA)}
   }
-  
-  
+
+
   setapred2$scoreN = scorevals
-  
+
   # Now look at supertype specific anchor positions in blast results ...
   supertype = read.csv("code/anchorpositions.csv",sep=",")
-  
+
   anchormm = c()
   for(i in 1:nrow(setapred2)){
     if(!is.na(setapred2[i,"HLA_restriction"])){
@@ -734,7 +739,7 @@ merge_result_classI <-function()
     }
   }
   setapred2$anchormm = anchormm
-  
+
   return(setapred2)
   }
 
@@ -745,60 +750,60 @@ merge_result_classI <-function()
 
 merge_result_classII <-function()
 {
-  
+
   # load class II results
-  
-  
+
+
   setapred = read.csv("3_blast_mismatches_II.csv")
- 
-  
+
+
   setapred$Hydrophobicity = hydrophobicity(setapred$full_peptide)
   setapred$pI = pI(setapred$full_peptide, pKscale= "Bjellqvist")
   setapred$MW = mw(setapred$full_peptide)
 
-  # How many blast matches ? 
-  
+  # How many blast matches ?
+
   mismatch = c()
   for(row in 1:nrow(setapred)){
     mismatch = append(mismatch,sum(as.integer(!as.vector(setapred[row,6:14]))))
   }
   # Add matches number to data
   setapred$mismatch = mismatch
-  
-  
+
+
   get_duplicated_alleles = function(st){
     tmp = gsub('\\*', '', st) %>%  gsub("_","",.)  %>% gsub(':','',.) %>% gsub('HLA-','',.) %>% gsub('-','/',.)
     tmp = strsplit(tmp,"\\+")[[1]]
     tmp = tmp[duplicated(tmp)]
     return(tmp)
   }
-  
-  
+
+
   setapred =  setapred %>% rowwise %>%  mutate(promiscuity = length(get_duplicated_alleles(as.character(allele))))
-  
-  # how many of predictor for the peptides  ? 
-  
+
+  # how many of predictor for the peptides  ?
+
   #setapred %>% rowwise %>% mutate(numpred = length(setdiff(str_split_fixed(predictor,"\\+",3),c("")))) %>% glimpse
   setapred = setapred %>% rowwise %>% mutate(Num_predictor = length(setdiff(str_split_fixed(predictor,"\\+",3),c(""))))
-  setapred = setapred %>% rowwise %>% mutate(hasI = grepl("I",predictor)) 
-  setapred = setapred %>% rowwise %>% mutate(hasN = grepl("N",predictor)) 
-  
-  
+  setapred = setapred %>% rowwise %>% mutate(hasI = grepl("I",predictor))
+  setapred = setapred %>% rowwise %>% mutate(hasN = grepl("N",predictor))
+
+
   # Now for the filtering step:
   #setapred %>% arrange(desc(Num_predictor),desc(mismatch),desc(scoreN)) %>% glimpse
-  
-  # convert supertype to vector of characters 
+
+  # convert supertype to vector of characters
   setapred$allele = as.vector(setapred$allele)
-  
+
   # create new dataframe to duplicate results by supertypes
-  
+
   setapred2 = data.frame()
   HLA_restriction = c()
   setapred$allele = as.vector(setapred$allele)
   for(row in 1:nrow(setapred))
   {
     st = as.vector((get_duplicated_alleles(as.character(setapred[row,"allele"]))))
-    if(length(st)==0){ 
+    if(length(st)==0){
       setapred2 = rbind(setapred2,setapred[row,])
       HLA_restriction = append(HLA_restriction,NA)}
     for(s in st){
@@ -806,9 +811,9 @@ merge_result_classII <-function()
       HLA_restriction = append(HLA_restriction,s)
     }
   }
-  setapred2$HLA_restriction = HLA_restriction 
-  
-  
+  setapred2$HLA_restriction = HLA_restriction
+
+
   # Score of N predictor (if any)
   # home made function to extract scores from strings
   get_allele_scores = function(st){
@@ -818,14 +823,14 @@ merge_result_classII <-function()
     tmp = tmp[-1]
     allele  = paste(tmp,collapse ="_")
     return(c(allele,score))}
-  
+
   get_pred_allele_scores = function(st,pred){
     sst = strsplit(st,"\\+")[[1]]
     test = sst[grep(pred,sst)]
     test2 = sapply(test,get_allele_scores)
     return(test2) }
-  
-  
+
+
   setapred2$score = as.vector(setapred2$score)
   scorevals = c()
   for(row in 1:nrow(setapred2)){
@@ -848,10 +853,6 @@ merge_result_classII <-function()
   }
   setapred2$scoreN = scorevals
   return(setapred2)
-  
-   
+
+
 }
-
-
-
-
