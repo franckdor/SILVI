@@ -398,7 +398,7 @@ export_FASTA <- function(x,name){
 }
 
 # after Blast =============
-add_best_from_blast <- function(df, blasted.path){
+add_best_from_blastOLD <- function(df, blasted.path){
   blasted <- readLines(blasted.path)
   # partition queries
   start_lines <- grep("Query=", blasted)
