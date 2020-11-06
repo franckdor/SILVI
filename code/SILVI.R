@@ -28,7 +28,8 @@ rm(list=ls())
 ### # dependencies
 library(dplyr)
 library(magrittr)
-source("code/process_blast.R")
+# source("code/process_blast.R")
+source("process_blast.R")
 
 # https://gist.github.com/hadley/6353939#file-read-file-cpp
 # library(Rcpp)
@@ -553,6 +554,11 @@ best_sliding <- function(fixed, sliding){
 #   res
 # }
 
+#' Compute FALSE/TRUE score columns (from peptide and middle2 columns)
+#' 
+#' @param df A tibble 
+#' @return A new dataframe : copy of input tibble plus m_1:m_n columns (FALSE/TRUE val)
+
 count_mismatches <- function(df){
   l1 <- df$peptide %>% strsplit("")
   l2 <- df$middle2 %>% strsplit("") %>% lapply("[", 1:9)
@@ -561,17 +567,19 @@ count_mismatches <- function(df){
   return(cbind(df, m_df))
 }
 
-# -------------------------------------------------------------------------
-# use fd_middle to score alignment and create output new columns (m_1:m_9) with FALSE/TRUE values.
-# in  : df a tibble
-# out : copie of input tibble with new columns added
 
-count_mismatches_fd <- function(df){  # <------- fonction de calcul des scores
+
+#' Compute FALSE/TRUE score columns (from peptide and fd_middle columns)
+#' 
+#' @param df A tibble 
+#' @return A new dataframe : copy of input tibble plus m_1:m_n columns (FALSE/TRUE val)
+
+count_mismatches_fd <- function(df){  
 
   l1 <- df$peptide %>% strsplit("")
   l2 <- df$fd_middle %>% strsplit("") %>% lapply("[", 1:9)
 
-  # as.data.frame() called to use calnames() function on the create frame (comment fd)
+  # as.data.frame() called to use calnames() function on the newly created frame (comment fd)
   m_df <- mapply(function(x, y) (x == y) | (y=="+"), l1, l2)  %>% t() %>% as.data.frame()
   colnames(m_df) <- paste0("m_", 1:9)
   return(cbind(df, m_df))
