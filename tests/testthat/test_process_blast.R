@@ -71,10 +71,7 @@ library(testthat)
   # print(add_best_df$fd_middle2[23:42])
   # print(add_best_df$fd_middle2[51])
 
-  #  PRODUIT  PAR count_mismatches ou count_mismatches_fd appelé par à mettre dans test_SILVI.R
-  #  print(add_best_df$m_1[5])
-  #  print(add_best_df$m_2[5])
-  #  print(add_best_df$m_3[5])
+
 
 # ---------------------------------------------------
 # "test des sorties de add_best_from_blast"  
@@ -98,24 +95,3 @@ test_that("test de fd_middle2 completion à droite", {
 
 })
 
-# tester count_mismatch_fd (à remettre dans test_SILVI.R) # ou créer un fichier final_scoring.R
-
-## test_that("test des scores False true", {
-##   
-##   expect_equal(add_best_df$m_1[5],FALSE) 
-##   expect_equal(add_best_df$m_2[5],FALSE) 
-##   expect_equal(add_best_df$m_3[5],FALSE) 
-##   
-##   expect_equal(add_best_df$m_1[23],FALSE) 
-##   expect_equal(add_best_df$m_2[23],FALSE)  
-##   expect_equal(add_best_df$m_3[23],FALSE) 
-##  
-##   expect_equal(add_best_df$m_1[42],FALSE)   
-##   expect_equal(add_best_df$m_2[42],FALSE) 
-##   expect_equal(add_best_df$m_3[42],FALSE) 
-## 
-##   expect_equal(add_best_df$m_1[51],FALSE)     
-##   expect_equal(add_best_df$m_2[51],FALSE) 
-##   expect_equal(add_best_df$m_3[51],FALSE) 
-##   
-## })

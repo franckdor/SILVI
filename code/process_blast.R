@@ -1,6 +1,6 @@
 # File : process_blast.R
 require(stringr)
-source("best_sliding.R")
+# source("best_sliding.R")
 
 ######## library(tidyverse) # fd à enlever
 
