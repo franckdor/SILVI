@@ -28,8 +28,8 @@ rm(list=ls())
 ### # dependencies
 library(dplyr)
 library(magrittr)
-# source("code/process_blast.R")
-source("process_blast.R")
+source("code/process_blast.R")
+#source("process_blast.R")
 
 # https://gist.github.com/hadley/6353939#file-read-file-cpp
 # library(Rcpp)
@@ -68,6 +68,7 @@ digest_I_and_II <- function(cooked, PATH_TO_BLAST_TXT){
     add_best_from_blast(PATH_TO_BLAST_TXT) %T>%
     export_csv("2_common_blast_I") %>%
     count_mismatches() %>%
+    count_mismatches_fd() %>%      # fd : code added to compute score columns
     # if you no longer need the thing below to apply,
     # just add a # in front of the line
     after_two_spaces_all_mismatches() %>%
@@ -555,8 +556,8 @@ best_sliding <- function(fixed, sliding){
 # }
 
 #' Compute FALSE/TRUE score columns (from peptide and middle2 columns)
-#' 
-#' @param df A tibble 
+#'
+#' @param df A tibble
 #' @return A new dataframe : copy of input tibble plus m_1:m_n columns (FALSE/TRUE val)
 
 count_mismatches <- function(df){
@@ -570,11 +571,11 @@ count_mismatches <- function(df){
 
 
 #' Compute FALSE/TRUE score columns (from peptide and fd_middle columns)
-#' 
-#' @param df A tibble 
+#'
+#' @param df A tibble
 #' @return A new dataframe : copy of input tibble plus m_1:m_n columns (FALSE/TRUE val)
 
-count_mismatches_fd <- function(df){  
+count_mismatches_fd <- function(df){
 
   l1 <- df$peptide %>% strsplit("")
   l2 <- df$fd_middle %>% strsplit("") %>% lapply("[", 1:9)
