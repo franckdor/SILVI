@@ -578,7 +578,7 @@ count_mismatches <- function(df){
 count_mismatches_fd <- function(df){
 
   l1 <- df$peptide %>% strsplit("")
-  l2 <- df$fd_middle %>% strsplit("") %>% lapply("[", 1:9)
+  l2 <- df$fd_middle2 %>% strsplit("") %>% lapply("[", 1:9)
 
   # as.data.frame() called to use calnames() function on the newly created frame (comment fd)
   m_df <- mapply(function(x, y) (x == y) | (y=="+"), l1, l2)  %>% t() %>% as.data.frame()
