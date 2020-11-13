@@ -67,7 +67,7 @@ digest_I_and_II <- function(cooked, PATH_TO_BLAST_TXT){
   cooked %>%
     add_best_from_blast(PATH_TO_BLAST_TXT) %T>%
     export_csv("2_common_blast_I") %>%
-    count_mismatches() %>%
+    # count_mismatches() %>%       # fd : comment : replaced by count_mismatches_fd()
     count_mismatches_fd() %>%      # fd : code added to compute score columns
     # if you no longer need the thing below to apply,
     # just add a # in front of the line
