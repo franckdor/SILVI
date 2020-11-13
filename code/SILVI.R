@@ -4,7 +4,7 @@
 # script name:  Epitope
 # author:       Vincent Bonhomme
 # started:      July 2016
-# licence:      (c) Vincent Bonhomme/Athéna & Joanna Pissara/IRD#
+# licence:      (c) Vincent Bonhomme/Athéna & Joana Pissarra/IRD#
 # dependencies: plyr, dplyr, magrittr
 #
 # abstract:     This script select epitopes [todo]
@@ -649,9 +649,9 @@ merge_result_classI <-function()
   setapred$MW = mw(setapred$peptide)
   # How many blast matches
   mismatch = setapred %>% select(c(1,seq(5,13))) %>% gather(pos,val,2:10)
-  mismatch$nn =  as.integer(mismatch$val)
-  mismatch = mismatch %>% group_by(peptide) %>% summarize_at("nn",sum)
-  mismatch$mismatch = 9 - mismatch$nn
+  mismatch$match =  as.integer(mismatch$val)
+  mismatch = mismatch %>% group_by(peptide) %>% summarize_at("match",sum)
+  mismatch$mismatch = 9 - mismatch$match
   # Add matches number to data
 
   setapred = setapred %>% left_join(mismatch,by="peptide")
