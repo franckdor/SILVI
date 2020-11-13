@@ -195,7 +195,7 @@ add_best_from_blast <- function(df, blasted.path){
                  left_dashes_count = as.integer(query_start) - 1           # attention provient de l'appel  de la fct (semble globale)
                  #cat("\nquery_start ",query_start," res_middle ",res_middle,"\n")
                  st_dash <- str_dup("-", left_dashes_count)                # create a string of -
-                 st_middle_and_left_dashes <- paste0(st_dash,res_middle)   # middle string is completed by left dsh
+                 st_middle_and_left_dashes <- paste0(st_dash,res_middle)   # middle string is completed by left dashes
 
     st_middle_and_left_dashes
   }
@@ -214,7 +214,6 @@ add_best_from_blast <- function(df, blasted.path){
       df$fd_middle[i] <- compute_fd_middle(l_fd_alg_info[[i]]$query_start,st_middle)
   }
 
-  cat("\n === fd_middle == \n")
   # print(df$fd_middle)
   # ---- fin ajout fd : process_middle ****
 
@@ -258,8 +257,8 @@ add_best_from_blast <- function(df, blasted.path){
 
     # FD : new column fd_middle2
     # process each row fd_middle of df matrix
-    # use best_sliding to ccomplete fd_middle with left dashes if necessary
-    # and fill middle2 column with results
+    # use best_sliding to complete fd_middle with left dashes if necessary
+    # and fill fd_middle2 column with result
     df %<>% mutate(fd_middle2=NA) # add new column and store score coming from best sliding
     for (i in 1:nrow(df)){
            df$fd_middle2[i] <- best_sliding(df$blast[i], df$fd_middle[i])
