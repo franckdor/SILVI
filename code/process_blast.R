@@ -214,11 +214,6 @@ add_best_from_blast <- function(df, blasted.path){
       df$fd_middle[i] <- compute_fd_middle(l_fd_alg_info[[i]]$query_start,st_middle)
   }
 
-  # print(df$fd_middle)
-  # ---- fin ajout fd : process_middle ****
-
-
-
   # inner function
   # turns into character and replace spaces with dashes
   fac_to_dashes <- function(x) x %>% as.character() %>% gsub(" ", "-", .)
