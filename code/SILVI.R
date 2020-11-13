@@ -648,7 +648,7 @@ merge_result_classI <-function()
   setapred$pI = pI(setapred$peptide, pKscale= "Bjellqvist")
   setapred$MW = mw(setapred$peptide)
   # How many blast matches
-  mismatch = setapred %>% select(c(1,seq(5,13))) %>% gather(pos,val,2:10)
+  mismatch = setapred %>% select(c(1,seq(7,15))) %>% gather(pos,val,2:10)
   mismatch$match =  as.integer(mismatch$val)
   mismatch = mismatch %>% group_by(peptide) %>% summarize_at("match",sum)
   mismatch$mismatch = 9 - mismatch$match
