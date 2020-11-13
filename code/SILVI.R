@@ -763,7 +763,7 @@ merge_result_classI <-function()
   anchormm = c()
   for(i in 1:nrow(setapred2)){
     if(!is.na(setapred2[i,"HLA_restriction"])){
-      pos = supertype %>% filter(supertype == setapred2[i,]$HLA_restriction) %>% mutate(pos = anchor + 4) %>% select(pos)
+      pos = supertype %>% filter(supertype == setapred2[i,]$HLA_restriction) %>% mutate(pos = anchor + 6) %>% select(pos)
       anchormm = append(anchormm,sum(as.integer(!setapred2[i,as.vector(pos$pos)])))
     }
     else{
