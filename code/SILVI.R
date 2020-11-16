@@ -797,7 +797,7 @@ merge_result_classII <-function()
 
   mismatch = c()
   for(row in 1:nrow(setapred)){
-    mismatch = append(mismatch,sum(as.integer(!as.vector(setapred[row,6:14]))))
+    mismatch = append(mismatch,sum(as.integer(!as.vector(setapred[row,8:16]))))
   }
   # Add matches number to data
   setapred$mismatch = mismatch
